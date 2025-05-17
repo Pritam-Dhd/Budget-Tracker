@@ -14,3 +14,13 @@ const Logo = () => {
 };
 
 export default Logo;
+
+export const MobileLogo = () => {
+  return (
+    <Link href="/" className="flex items-center gap-2">
+      <p className="bg-gradient-to-r from-sky-300 to-sky-500 bg-clip-text text-xl font-bold leading-tight tracking-tighter text-transparent ">
+        Budget Tracker
+      </p>
+    </Link>
+  );
+};
