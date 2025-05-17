@@ -6,6 +6,9 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Button, buttonVariants } from "./ui/button";
 import { ThemeSwicherBtn } from "./ThemeSwicherBtn";
+import { DialogTitle } from "./ui/dialog"; // or your equivalent
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+
 import {
   SignInButton,
   SignUpButton,
@@ -39,7 +42,7 @@ const DesktopNavbar = () => {
             ))}
           </div>
         </div>
-        <div className="flex items-center gap-2 justify-end">
+        <div className="flex items-center gap-3 justify-end">
           <ThemeSwicherBtn />
           <SignedOut>
             <SignInButton />
@@ -69,6 +72,9 @@ const MobileNavbar = () => {
             className="w-[80vw] max-w-sm sm:w-[70vw] px-4 py-6"
             side="left"
           >
+            <VisuallyHidden>
+              <DialogTitle>Navigation Menu</DialogTitle>
+            </VisuallyHidden>
             <Logo />
             <div className="flex flex-col gap-4 pt-6">
               {items.map((item) => (

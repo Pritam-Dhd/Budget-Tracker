@@ -40,27 +40,30 @@ model Transaction {
   type         String   @default("income")
   category     String
   categoryIcon String
+  currency     String
 
   @@index([userId])
 }
 
 model MonthHistory {
-  userId  String
-  day     Int
-  month   Int
-  year    Int
-  income  Float
-  expense Float
+  userId   String
+  day      Int
+  month    Int
+  year     Int
+  income   Float
+  expense  Float
+  currency String
 
   @@id([day, month, year, userId])
 }
 
 model YearHistory {
-  userId  String
-  month   Int
-  year    Int
-  income  Float
-  expense Float
+  userId   String
+  month    Int
+  year     Int
+  income   Float
+  expense  Float
+  currency String
 
   @@id([month, year, userId])
 }
