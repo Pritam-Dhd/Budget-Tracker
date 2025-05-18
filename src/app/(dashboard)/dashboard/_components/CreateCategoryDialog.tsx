@@ -22,7 +22,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { TransactionType } from "@/lib/tyoes";
+import { TransactionType } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import {
   CreateCategorySchema,
