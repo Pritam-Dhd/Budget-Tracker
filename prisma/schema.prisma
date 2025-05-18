@@ -54,7 +54,7 @@ model MonthHistory {
   expense  Float
   currency String
 
-  @@id([day, month, year, userId])
+  @@id([day, month, year, userId,currency])
 }
 
 model YearHistory {
@@ -65,5 +65,5 @@ model YearHistory {
   expense  Float
   currency String
 
-  @@id([month, year, userId])
+  @@id([month, year, userId, currency])
 }

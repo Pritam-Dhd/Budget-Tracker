@@ -1,6 +1,6 @@
 "use client";
 import { Category } from "@/generated/prisma";
-import { TransactionType } from "@/lib/tyoes";
+import { TransactionType } from "@/lib/types";
 import { useQuery } from "@tanstack/react-query";
 import React, { useCallback, useEffect, useState } from "react";
 import {
@@ -62,7 +62,7 @@ const CategoryPicker = ({ type, onChange }: Props) => {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className="w-auto justify-between"
         >
           {selectedCategory ? (
             <CategoryRow category={selectedCategory} />
