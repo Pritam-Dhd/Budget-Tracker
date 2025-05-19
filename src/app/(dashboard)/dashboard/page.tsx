@@ -4,6 +4,7 @@ import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import React from "react";
 import CreateTransactionDialog from "./_components/CreateTransactionDialog";
+import Overview from "./_components/Overview";
 
 const page = async () => {
   const user = await currentUser();
@@ -13,13 +14,15 @@ const page = async () => {
       userId: user?.id,
     },
   });
+
   if (!userSetting) {
     redirect("/wizard");
   }
+
   return (
     <div className="h-full bg-background">
-      <div className="border-b bg-card">
-        <div className="container flex flex-wrap items-center justify-between gap-6 py-8">
+      <div className="border-b bg-card ">
+        <div className="flex flex-wrap items-center justify-between gap-6 py-8 px-4">
           <p className="text-3xl font-bold">Hello, {user?.firstName}! 👋 </p>
           <div className="flex items-center gap-3">
             <CreateTransactionDialog
@@ -47,6 +50,9 @@ const page = async () => {
             />
           </div>
         </div>
+      </div>
+      <div className="px-4 flex flex-wrap">
+        <Overview userSetting={userSetting} />
       </div>
     </div>
   );
