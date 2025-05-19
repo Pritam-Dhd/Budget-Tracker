@@ -14,7 +14,7 @@ import {
   CreateTransactionSchema,
   CreateTransactionSchemaType,
 } from "@/schema/transaction";
-import React, { ReactNode, useCallback, useState } from "react";
+import React, { ReactNode, useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -50,6 +50,9 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createTransaction } from "../_actions/transaction";
 import { toast } from "sonner";
 import { DateToUTCDate } from "@/lib/helper";
+import { currentUser } from "@clerk/nextjs/server";
+import prisma from "@/lib/prisma";
+import { useUser } from "@clerk/nextjs";
 
 interface Props {
   trigger: ReactNode;
@@ -57,6 +60,24 @@ interface Props {
 }
 
 const CreateTransactionDialog = ({ trigger, type }: Props) => {
+  const { user } = useUser();
+  const [userSetting, setUserSetting] = useState({
+    userId: "",
+    currency: "",
+  });
+
+  useEffect(() => {
+    const fetchUserSettings = async () => {
+      const res = await fetch("/api/user-settings");
+      const setting = await res.json();
+      setUserSetting(setting);
+    };
+
+    if (user?.id) {
+      fetchUserSettings();
+    }
+  }, [user]);
+
   const form = useForm<CreateTransactionSchemaType>({
     resolver: zodResolver(CreateTransactionSchema),
     defaultValues: {
@@ -87,7 +108,7 @@ const CreateTransactionDialog = ({ trigger, type }: Props) => {
         description: "",
         amount: 0,
         category: undefined,
-        currency: "",
+        currency: userSetting.currency,
       });
 
       queryClient.invalidateQueries({
@@ -170,7 +191,7 @@ const CreateTransactionDialog = ({ trigger, type }: Props) => {
                     <FormLabel>Currency</FormLabel>
                     <Select
                       onValueChange={field.onChange}
-                      defaultValue={field.value}
+                      defaultValue={userSetting.currency}
                     >
                       <FormControl className="w-full">
                         <SelectTrigger className="h-8">
