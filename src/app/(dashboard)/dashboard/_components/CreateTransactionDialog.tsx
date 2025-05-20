@@ -70,6 +70,7 @@ const CreateTransactionDialog = ({ trigger, type }: Props) => {
     const fetchUserSettings = async () => {
       const res = await fetch("/api/user-settings");
       const setting = await res.json();
+      form.setValue("currency", setting.currency);
       setUserSetting(setting);
     };
 
