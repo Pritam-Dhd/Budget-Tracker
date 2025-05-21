@@ -113,7 +113,8 @@ const CreateTransactionDialog = ({ trigger, type }: Props) => {
       });
 
       queryClient.invalidateQueries({
-        queryKey: ["/overview"],
+        queryKey: ["overview", "stats", "categories"],
+        exact: false,
       });
 
       setOpen((prev) => !prev);
