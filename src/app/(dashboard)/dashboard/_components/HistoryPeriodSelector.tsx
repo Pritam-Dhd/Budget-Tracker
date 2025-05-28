@@ -19,6 +19,8 @@ interface Props {
   setPeriod: (period: Period) => void;
   timeFrame: TimeFrame;
   setTimeFrame: (timeFrame: TimeFrame) => void;
+  currency: string;
+  setCurrency: (currency: string) => void;
 }
 
 const HistoryPeriodSelector = ({
@@ -26,6 +28,8 @@ const HistoryPeriodSelector = ({
   setPeriod,
   timeFrame,
   setTimeFrame,
+  currency,
+  setCurrency,
 }: Props) => {
   const historyPeriod = useQuery<GetHistoryPeriodsResponseType>({
     queryKey: ["overview", "history", "periods"],
@@ -49,11 +53,13 @@ const HistoryPeriodSelector = ({
         </Tabs>
       </SkeletonWrapper>
       <div className="flex flex-wrap items-center gap-2">
-        <SkeletonWrapper isLoading={historyPeriod.isFetching}>
+        <SkeletonWrapper isLoading={historyPeriod.isFetching} fullWidth={false}>
           <YearSelector
             period={period}
             setPeriod={setPeriod}
             years={historyPeriod.data || []}
+            currency={currency}
+            setCurrency={setCurrency}
           />
         </SkeletonWrapper>
         {timeFrame === "month" && (
@@ -79,13 +85,15 @@ function YearSelector({
   period,
   setPeriod,
   years,
+  currency,
+  setCurrency,
 }: {
   period: Period;
   setPeriod: (period: Period) => void;
   years: GetHistoryPeriodsResponseType;
+  currency: string;
+  setCurrency: (currency: string) => void;
 }) {
-  const [selectedCurrency, setSelectedCurrency] = useState<string>("");
-
   // Group years by the year value to avoid duplicates in the year selector
   const groupedYears = years.reduce(
     (acc: Record<number, string[]>, { year, currency }) => {
@@ -106,7 +114,7 @@ function YearSelector({
         onValueChange={(value) => {
           const newYear = parseInt(value);
           setPeriod({ month: period.month, year: newYear });
-          setSelectedCurrency(""); // Reset currency when changing year
+          setCurrency(""); // Reset currency when changing year
         }}
       >
         <SelectTrigger className="w-[180px]">
@@ -123,8 +131,8 @@ function YearSelector({
 
       {/* Currency Select */}
       <Select
-        value={selectedCurrency}
-        onValueChange={(currency) => setSelectedCurrency(currency)}
+        value={currency}
+        onValueChange={(currency) => setCurrency(currency)}
       >
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Select Currency" />
