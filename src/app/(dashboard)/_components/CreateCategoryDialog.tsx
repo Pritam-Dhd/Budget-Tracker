@@ -30,13 +30,13 @@ import {
 } from "@/schema/categories";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CircleOff, Loader2, PlusSquare } from "lucide-react";
-import React, { useCallback, useState } from "react";
+import React, { ReactNode, useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import Picker from "@emoji-mart/react";
 import data, { EmojiMartData } from "@emoji-mart/data";
 import { DrawerFooter } from "@/components/ui/drawer";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { CreateCategory } from "../_actions/catagories";
+import { CreateCategory } from "../dashboard/_actions/catagories";
 import { Category } from "@/generated/prisma";
 import { toast } from "sonner";
 import { useTheme } from "next-themes";
@@ -44,9 +44,10 @@ import { useTheme } from "next-themes";
 interface Props {
   type: TransactionType;
   onSuccessCallback: (category: Category) => void;
+  trigger?: ReactNode;
 }
 
-const CreateCategoryDialog = ({ type, onSuccessCallback }: Props) => {
+const CreateCategoryDialog = ({ type, onSuccessCallback, trigger }: Props) => {
   const [open, setOpen] = useState(false);
   const form = useForm<CreateCategorySchemaType>({
     resolver: zodResolver(CreateCategorySchema),
@@ -95,13 +96,17 @@ const CreateCategoryDialog = ({ type, onSuccessCallback }: Props) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button
-          variant="ghost"
-          className="flex border-separate items-center justify-start rounded-none border-b px-3 py-3 text-muted-foreground"
-        >
-          <PlusSquare className="mr-2 h-4 w-4" />
-          Create new
-        </Button>
+        {trigger ? (
+          trigger
+        ) : (
+          <Button
+            variant="ghost"
+            className="flex border-separate items-center justify-start rounded-none border-b px-3 py-3 text-muted-foreground"
+          >
+            <PlusSquare className="mr-2 h-4 w-4" />
+            Create new
+          </Button>
+        )}
       </DialogTrigger>
       <DialogContent className="bg-white dark:bg-black">
         <DialogHeader>

@@ -47,7 +47,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createTransaction } from "../_actions/transaction";
+import { createTransaction } from "../dashboard/_actions/transaction";
 import { toast } from "sonner";
 import { DateToUTCDate } from "@/lib/helper";
 import { currentUser } from "@clerk/nextjs/server";
